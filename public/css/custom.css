@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.img-invert {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+}
+
+.h-screen {
+    height: 100vh;
+}
+
+.label-login {
+    font-size: 120%;
+}
