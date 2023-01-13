@@ -155,6 +155,15 @@ class StudentController extends Controller
 
     public function destroyMany(Request $request)
     {
-        dd($request->all());
+        // Convert all student-ids into array
+        $ids = explode(',', $request->ids);
+
+        // Delete the student within ids[]
+        StudentModel::whereIn('id', $ids)->delete();
+
+        return redirect()->route('student.index')->with('status', [
+            'type' => 'success',
+            'message' => 'Selected students deleted successfully'
+        ]);
     }
 }
