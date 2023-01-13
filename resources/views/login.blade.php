@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-body shadow p-5">
                         {{-- Login Form --}}
-                        <form action="/login"
+                        <form action="{{ route('login') }}"
                               method="POST">
                             @csrf
                             <div class="form-group mb-4">

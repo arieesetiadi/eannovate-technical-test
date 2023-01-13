@@ -14,7 +14,7 @@ class StudentSeeder extends Seeder
     {
         StudentModel::truncate();
 
-        for ($i = 1; $i <= 9; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             StudentModel::create([
                 'id' => 'ST00' . $i,
                 'username' => 'student' . $i,

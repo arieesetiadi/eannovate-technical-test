@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 // Auth Routes
 Route::view('/login', 'login')->middleware('guest')->name('login');
-Route::post('/login', 'AuthController@login');
-Route::get('/logout', 'AuthController@logout');
+Route::post('/login', 'AuthController@login')->name('login');
+Route::get('/logout', 'AuthController@logout')->name('logout');
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-})->middleware('auth');
+// Routes for authenticated user (admin)
+Route::middleware('auth')->group(function () {
+    Route::view('/', 'admin.dashboard')->name('dashboard');
+    Route::resource('/student', 'StudentController');
+});

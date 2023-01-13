@@ -4,7 +4,7 @@
 
 <head>
     {{-- Page Title --}}
-    <title>Eannovate Technical Test</title>
+    <title>{{ $title ?? 'Eannovate Technical Test' }}</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
@@ -13,12 +13,14 @@
           content="width=device-width, initial-scale=1">
 
     {{-- Styles --}}
-    <link href="css/style.min.css"
+    <link href="{{ asset('css/style.min.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}"
           rel="stylesheet">
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
 </head>
@@ -41,14 +43,12 @@
 
                     {{-- Brand --}}
                     <a class="navbar-brand"
-                       href="/dashboard">
+                       href="{{ route('dashboard') }}">
                         <b class="logo-icon">
-                            <img src="plugins/images/logo-icon.png"
-                                 alt="homepage" />
+                            <img src="{{ asset('images/logo/eannovate-white.png') }}"
+                                 alt="Innovate white logo"
+                                 class="img-invert img-fluid">
                         </b>
-                        <span class="logo-text">
-                            <h2 class="text-dark mt-3">Eannovate</h2>
-                        </span>
                     </a>
                     {{-- End Brand --}}
 
@@ -71,11 +71,11 @@
                         <li>
                             <a class="profile-pic"
                                href="#">
-                                <img src="plugins/images/users/varun.jpg"
+                                <img src="{{ asset('images/profiles/default.png') }}"
                                      alt="user-img"
                                      width="36"
                                      class="img-circle">
-                                <span class="text-white font-medium">Steave</span>
+                                <span class="text-white font-medium">{{ auth()->user()->username }}</span>
                             </a>
                         </li>
                     </ul>
@@ -90,18 +90,37 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        {{-- Dashboard --}}
                         <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="/dashboard"
+                               href="{{ route('dashboard') }}"
                                aria-expanded="false">
-                                <i class="far fa-clock"
-                                   aria-hidden="true"></i>
+                                <i class="fa-solid fa-house"></i>
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
                         <hr>
+                        {{-- Student --}}
+                        <li class="sidebar-item pt-2">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="{{ route('student.index') }}"
+                               aria-expanded="false">
+                                <i class="fa-solid fa-users"></i>
+                                <span class="hide-menu">Student</span>
+                            </a>
+                        </li>
+
+                        {{-- Class --}}
+                        <li class="sidebar-item pt-2">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="/class"
+                               aria-expanded="false">
+                                <i class="fa-solid fa-door-closed"></i>
+                                <span class="hide-menu">Class</span>
+                            </a>
+                        </li>
                         <li class="text-center p-20 upgrade-btn">
-                            <a href="/logout"
+                            <a href="{{ route('logout') }}"
                                class="btn btn-danger text-white w-100">
                                 <i class="fa-solid fa-power-off"></i> Logout
                             </a>
@@ -135,12 +154,12 @@
     </div>
 
     {{-- Scripts --}}
-    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app-style-switcher.js"></script>
-    <script src="js/waves.js"></script>
-    <script src="js/sidebarmenu.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="{{ asset('plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/app-style-switcher.js') }}"></script>
+    <script src="{{ asset('js/waves.js') }}"></script>
+    <script src="{{ asset('js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 
 </html>
