@@ -14,18 +14,18 @@ class StudentSeeder extends Seeder
     {
         StudentModel::truncate();
 
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             StudentModel::create([
-                'id' => 'ST00' . $i,
+                'id' => 'STD' . $i,
                 'username' => 'student' . $i,
                 'email' => 'student' . $i . '@gmail.com',
                 'age' => 17,
                 'phone_number' => '082' . $i . 'xxxxxxxx',
                 'picture' => '',
                 'created_by' => 'ariesetiadi',
-                'created_date' => now(),
+                'created_date' => now()->subDay(1)->addMinute($i),
                 'modified_by' => 'ariesetiadi',
-                'modified_date' => now()
+                'modified_date' => now()->subDay(1)->addMinute($i)
             ]);
         }
     }

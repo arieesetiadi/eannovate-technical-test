@@ -16,3 +16,11 @@ body {
 .label-login {
     font-size: 120%;
 }
+
+.multi-selector {
+    display: none;
+}
+
+.pointer {
+    cursor: pointer;
+}

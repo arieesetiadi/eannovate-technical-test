@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class StudentController extends Controller
     public function index()
     {
         // Paginate all students data
-        $students = StudentModel::paginate(10);
+        $students = StudentModel::orderByDesc('created_date')->paginate(10);
 
         // Return data to student view
         return view('admin.student.index', [
@@ -31,7 +32,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        dd('student/create');
+        return view('admin.student.create', [
+            'title' => 'Add Student'
+        ]);
     }
 
     /**
@@ -40,9 +43,35 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        dd('student/store', $request->all());
+        // Get student data from form
+        $student = [
+            'id' => "STD" . (StudentModel::count() + 1),
+            'username' => $request->username,
+            'email' => $request->email,
+            'age' => $request->age,
+            'phone_number' => $request->phone_number,
+            'created_by' => auth()->user()->username,
+            'created_date' => now(),
+            'modified_by' => auth()->user()->username,
+            'modified_date' => now(),
+        ];
+
+        // Upload picture if exist
+        if ($request->file('picture') != null) {
+            $file = $request->file('picture');
+            $path = 'images/profiles/';
+            $student['picture'] = FileController::upload($file, $path);
+        }
+
+        // Insert student to database
+        StudentModel::create($student);
+
+        return redirect()->route('student.index')->with('status', [
+            'type' => 'success',
+            'message' => 'Student added successfully'
+        ]);
     }
 
     /**
@@ -87,15 +116,11 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        dd('studen/destroy', $id);
+        dd('student/destroy', $id);
     }
 
     public function destroyMany(Request $request)
     {
-        // Get ids and delete student by ids
-        $ids = explode(",", $request->ids);
-        StudentModel::whereIn('id', $ids)->delete();
-
-        return response()->json(['success' => "Students deleted successfully."]);
+        dd($request->all());
     }
 }

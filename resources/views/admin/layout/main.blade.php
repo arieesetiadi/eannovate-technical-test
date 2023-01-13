@@ -13,8 +13,9 @@
           content="width=device-width, initial-scale=1">
 
     {{-- Styles --}}
-    <link href="{{ asset('css/style.min.css') }}"
+    <link href="{{ asset('css/bootstrap.min.css') }}"
           rel="stylesheet">
+
     <link href="{{ asset('css/custom.css') }}"
           rel="stylesheet">
 
@@ -160,6 +161,7 @@
     <script src="{{ asset('js/waves.js') }}"></script>
     <script src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    @stack('after-scripts')
 </body>
 
 </html>
