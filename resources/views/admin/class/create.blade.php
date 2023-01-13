@@ -2,22 +2,20 @@
 
 @section('content')
     <h2 class="box-title">
-        Edit Student
+        Add Student
     </h2>
 
     {{-- Form Section --}}
-    <form action="{{ route('student.update', $student->id) }}"
+    <form action="{{ route('student.store') }}"
           method="POST"
           enctype="multipart/form-data">
         @csrf
-        @method('PUT')
         {{-- Profile Picture --}}
         <img id="imgPreview"
-             src="{{ asset('images/profiles/') . '/' . $student->picture }}"
+             src=""
              width="100px"
-             alt="{{ $student->picture }} profile picture"
-             class="my-3 rounded-circle {{ $student->picture ? '' : 'd-none' }}">
-
+             alt="Profile Picture"
+             class="my-3 rounded-circle d-none">
         <div class="mb-3 w-50">
             <label for="picture"
                    class="form-label">Profile Picture</label>
@@ -37,7 +35,6 @@
                    class="form-control"
                    id="username"
                    placeholder="Username"
-                   value="{{ $student->username }}"
                    required>
         </div>
 
@@ -50,7 +47,6 @@
                    class="form-control"
                    id="email"
                    placeholder="Email"
-                   value="{{ $student->email }}"
                    required>
         </div>
 
@@ -63,7 +59,6 @@
                    class="form-control"
                    id="age"
                    placeholder="Age"
-                   value="{{ $student->age }}"
                    required>
         </div>
 
@@ -75,37 +70,18 @@
                    type="text"
                    class="form-control"
                    id="phone_number"
-                   value="{{ $student->phone_number }}"
                    placeholder="Phone number">
         </div>
 
-        {{-- Update Button --}}
+        {{-- Submit Button --}}
         <div class="my-4 w-50">
             <button type="submit"
-                    class="btn btn-primary w-100">
+                    class="btn btn-primary">
                 <i class="fa-solid fa-circle-check"></i>
-                Update
+                Submit
             </button>
         </div>
     </form>
-
-    <hr class="w-50">
-
-    {{-- Delete Student Button --}}
-    <div class="my-4 w-50">
-        <form action="{{ route('student.destroy', $student->id) }}"
-              method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit"
-                    onclick="return confirm('Delete this student ?')"
-                    class="btn btn-danger text-white w-100">
-                <i class="fa-solid fa-trash"></i>
-                Delete
-                <strong>{{ $student->username }}</strong>
-            </button>
-        </form>
-    </div>
     {{-- End Form Section --}}
 @endsection
 

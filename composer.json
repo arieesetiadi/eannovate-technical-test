@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.4",
+        "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^6.20.26",
         "laravel/tinker": "^2.5"
     },
@@ -37,6 +38,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "vendor/autoload.php"
         ]
     },
     "autoload-dev": {

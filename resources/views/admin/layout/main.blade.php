@@ -114,7 +114,7 @@
                         {{-- Class --}}
                         <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="/class"
+                               href="{{ route('class.index-page') }}"
                                aria-expanded="false">
                                 <i class="fa-solid fa-door-closed"></i>
                                 <span class="hide-menu">Class</span>

@@ -25,4 +25,10 @@ Route::middleware('auth')->group(function () {
     // Students Routes
     Route::post('/student/destroy-many', 'StudentController@destroyMany')->name('student.destroy-many');
     Route::resource('/student', 'StudentController');
+
+    // Class Routes
+    Route::prefix('/class')->group(function () {
+        Route::get('/', 'ClassController@index')->name('class.index-page');
+        Route::get('/{id}/edit', 'ClassController@edit')->name('class.edit-page');
+    });
 });
