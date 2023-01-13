@@ -9,6 +9,7 @@ class StudentModel extends Model
 {
     protected $table = 'student';
     protected $guarded = [];
+    protected $casts = ['id' => 'string'];
 
     public $timestamps = false;
 

@@ -17,7 +17,6 @@ class StudentController extends Controller
     {
         // Paginate all students data
         $students = StudentModel::orderByDesc('created_date')->paginate(10);
-
         // Return data to student view
         return view('admin.student.index', [
             'title' => 'Student',
@@ -93,7 +92,13 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        dd('student/edit', $id);
+        // Get student by id
+        $student = StudentModel::find($id);
+        // Return data to student edit view
+        return view('admin.student.edit', [
+            'title' => 'Edit Student',
+            'student' => $student
+        ]);
     }
 
     /**
@@ -103,9 +108,32 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
-        dd('student/update', $id, $request->all());
+        // Get new student data from edit-form
+        $newStudent = [
+            'username' => $request->username,
+            'email' => $request->email,
+            'age' => $request->age,
+            'phone_number' => $request->phone_number,
+            'modified_by' => auth()->user()->username,
+            'modified_date' => now(),
+        ];
+
+        // Upload picture if exist
+        if ($request->file('picture') != null) {
+            $file = $request->file('picture');
+            $path = 'images/profiles/';
+            $newStudent['picture'] = FileController::upload($file, $path);
+        }
+
+        // Update student using model
+        StudentModel::find($id)->update($newStudent);
+
+        return redirect()->route('student.index')->with('status', [
+            'type' => 'success',
+            'message' => 'Student updated successfully'
+        ]);
     }
 
     /**
@@ -116,7 +144,13 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        dd('student/destroy', $id);
+        // Delete student by id
+        StudentModel::find($id)->delete();
+
+        return redirect()->route('student.index')->with('status', [
+            'type' => 'success',
+            'message' => 'Student deleted successfully'
+        ]);
     }
 
     public function destroyMany(Request $request)

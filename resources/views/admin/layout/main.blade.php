@@ -72,7 +72,7 @@
                         <li>
                             <a class="profile-pic"
                                href="#">
-                                <img src="{{ asset('images/profiles/default.png') }}"
+                                <img src="{{ asset('images/profiles/admin.png') }}"
                                      alt="user-img"
                                      width="36"
                                      class="img-circle">
