@@ -2,75 +2,47 @@
 
 @section('content')
     <h2 class="box-title">
-        Add Student
+        Add Class
     </h2>
 
     {{-- Form Section --}}
-    <form action="{{ route('student.store') }}"
+    <form action="{{ route('class.store-page') }}"
           method="POST"
           enctype="multipart/form-data">
         @csrf
-        {{-- Profile Picture --}}
-        <img id="imgPreview"
-             src=""
-             width="100px"
-             alt="Profile Picture"
-             class="my-3 rounded-circle d-none">
+        {{-- Class Name --}}
         <div class="mb-3 w-50">
-            <label for="picture"
-                   class="form-label">Profile Picture</label>
-            <input name="picture"
-                   class="form-control"
-                   type="file"
-                   id="picture"
-                   onchange="previewImage(event)">
-        </div>
-
-        {{-- Username --}}
-        <div class="mb-3 w-50">
-            <label for="username"
-                   class="form-label">Username</label>
-            <input name="username"
+            <label for="name"
+                   class="form-label">Class Name</label>
+            <input name="name"
                    type="text"
+                   id="name"
                    class="form-control"
-                   id="username"
                    placeholder="Username"
-                   required>
+                   required
+                   oninput="validateNameInput(event)">
+            <small id="nameError"
+                   class="text-danger d-none"></small>
         </div>
 
-        {{-- Email --}}
-        <div class="mb-3 w-50">
-            <label for="email"
-                   class="form-label">Email</label>
-            <input name="email"
-                   type="email"
-                   class="form-control"
-                   id="email"
-                   placeholder="Email"
-                   required>
-        </div>
-
-        {{-- Age --}}
-        <div class="mb-3 w-50">
-            <label for="age"
-                   class="form-label">Age</label>
-            <input name="age"
-                   type="number"
-                   class="form-control"
-                   id="age"
-                   placeholder="Age"
-                   required>
-        </div>
-
-        {{-- Phone Number --}}
-        <div class="mb-3 w-50">
-            <label for="phone_number"
-                   class="form-label">Phone Number</label>
-            <input name="phone_number"
-                   type="text"
-                   class="form-control"
-                   id="phone_number"
-                   placeholder="Phone number">
+        {{-- Select Major --}}
+        <div class="form-group mb-3 w-50">
+            <label for="major">Select Major</label>
+            <select class="form-control"
+                    id="major"
+                    required
+                    onchange="validateMajorSelect(event)">
+                <option value=""
+                        selected>
+                    Select class major 👇
+                </option>
+                {{-- Looping all majors data --}}
+                @foreach ($majors as $major)
+                    <option value="{{ $major->name }}">{{ $major->name }} - {{ $major->id }}</option>
+                @endforeach
+            </select>
+            <small id="majorError"
+                   class="text-danger d-none"></small>
         </div>
 
         {{-- Submit Button --}}
@@ -86,5 +58,5 @@
 @endsection
 
 @push('after-scripts')
-    <script src="{{ asset('js/student.js') }}"></script>
+    <script src="{{ asset('js/class.js') }}"></script>
 @endpush

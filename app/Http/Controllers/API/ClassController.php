@@ -15,12 +15,12 @@ class ClassController extends Controller
      */
     public function index()
     {
-        echo json_encode("Hello World 😊");
-        // $classes = ClassModel::paginate(10);
-        // return json_encode([
-        //     'status' => 200,
-        //     'data' => $classes
-        // ]);
+        // Paginate class data
+        $classes = ClassModel::paginate(10);
+        return json_encode([
+            'status' => 200,
+            'data' => $classes
+        ]);
     }
 
     /**
