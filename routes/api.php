@@ -19,4 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Class API Routes
-Route::resource('/class', 'API\ClassController');
+Route::prefix('/class')->group(function () {
+    Route::get('/', 'API\ClassController@index');
+    Route::post('/', 'API\ClassController@store');
+    Route::put('/', 'API\ClassController@update');
+    Route::delete('/{id}', 'API\ClassController@destroy');
+});

@@ -15,15 +15,17 @@
     {{-- Styles --}}
     <link href="{{ asset('css/bootstrap.min.css') }}"
           rel="stylesheet">
-
     <link href="{{ asset('css/custom.css') }}"
           rel="stylesheet">
-
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
+
+    {{-- Datatable CSS --}}
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -114,7 +116,7 @@
                         {{-- Class --}}
                         <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                               href="{{ route('class.index-page') }}"
+                               href="{{ route('class.index') }}"
                                aria-expanded="false">
                                 <i class="fa-solid fa-door-closed"></i>
                                 <span class="hide-menu">Class</span>
@@ -161,6 +163,12 @@
     <script src="{{ asset('js/waves.js') }}"></script>
     <script src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.data-table').DataTable();
+        });
+    </script>
     @stack('after-scripts')
 </body>
 

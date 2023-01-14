@@ -27,11 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('/student', 'StudentController');
 
     // Class Routes
-    Route::prefix('/class')->group(function () {
-        Route::get('/', 'ClassController@index')->name('class.index-page');
-        Route::post('/', 'ClassController@store')->name('class.store-page');
-        Route::get('/create', 'ClassController@create')->name('class.create-page');
-        Route::get('/{id}/edit', 'ClassController@edit')->name('class.edit-page');
-        Route::delete('/{id}', 'ClassController@destroy')->name('class.destroy-page');
-    });
+    Route::resource('/class', 'ClassController');
 });

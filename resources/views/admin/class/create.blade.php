@@ -6,7 +6,7 @@
     </h2>
 
     {{-- Form Section --}}
-    <form action="{{ route('class.store-page') }}"
+    <form action="{{ route('class.store') }}"
           method="POST"
           enctype="multipart/form-data">
         @csrf
@@ -28,12 +28,14 @@
         {{-- Select Major --}}
         <div class="form-group mb-3 w-50">
             <label for="major">Select Major</label>
-            <select class="form-control"
+            <select name="major"
+                    class="form-control"
                     id="major"
                     required
                     onchange="validateMajorSelect(event)">
                 <option value=""
-                        selected>
+                        selected
+                        hidden>
                     Select class major 👇
                 </option>
                 {{-- Looping all majors data --}}
