@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^6.20.26",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",
