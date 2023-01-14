@@ -33,6 +33,14 @@
             <div class="col-12 d-flex justify-content-center">
                 <div class="card">
                     <div class="card-body shadow p-5">
+                        {{-- Show alert if exist --}}
+                        @if (session('status'))
+                            <div class="alert alert-{{ session('status')['type'] }}"
+                                 role="alert">
+                                {{ session('status')['message'] }}
+                            </div>
+                        @endif
+
                         {{-- Login Form --}}
                         <form action="{{ route('login') }}"
                               method="POST">

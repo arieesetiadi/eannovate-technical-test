@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
+use App\Models\ClassModel;
+use App\Models\StudentClassModel;
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
 
@@ -31,8 +33,12 @@ class StudentController extends Controller
      */
     public function create()
     {
+        // Ambil data class untuk proses Assign Class untuk Student
+        $classes = ClassModel::all();
+
         return view('admin.student.create', [
-            'title' => 'Add Student'
+            'title' => 'Add Student',
+            'classes' => $classes
         ]);
     }
 
@@ -67,6 +73,11 @@ class StudentController extends Controller
         // Insert student to database
         StudentModel::create($student);
 
+        // Assign class if exist
+        if (count($request->classes) > 0) {
+            self::assignClass($student, $request->classes);
+        }
+
         return redirect()->route('student.index')->with('status', [
             'type' => 'success',
             'message' => 'Student added successfully'
@@ -94,10 +105,23 @@ class StudentController extends Controller
     {
         // Get student by id
         $student = StudentModel::find($id);
+        // Get all classes data
+        $classes = ClassModel::all();
+        // Get classes selected by this student
+        $selectedClassIds = [];
+        $selectedClasses = [];
+        foreach ($student->studentClass as $studentClass) {
+            $selectedClasses[] = $studentClass->class;
+            $selectedClassIds[] = $studentClass->class->id;
+        }
+
         // Return data to student edit view
         return view('admin.student.edit', [
             'title' => 'Edit Student',
-            'student' => $student
+            'student' => $student,
+            'classes' => $classes,
+            'selectedClasses' => $selectedClasses,
+            'selectedClassIds' => $selectedClassIds,
         ]);
     }
 
@@ -128,7 +152,13 @@ class StudentController extends Controller
         }
 
         // Update student using model
-        StudentModel::find($id)->update($newStudent);
+        $student = StudentModel::find($id);
+        $student->update($newStudent);
+
+        // Assign class if exist
+        if (count($request->classes) > 0) {
+            self::assignClass($student, $request->classes);
+        }
 
         return redirect()->route('student.index')->with('status', [
             'type' => 'success',
@@ -165,5 +195,21 @@ class StudentController extends Controller
             'type' => 'success',
             'message' => 'Selected students deleted successfully'
         ]);
+    }
+
+    public static function assignClass($student, $classes)
+    {
+        // Assign class if exist
+        $studentClasses = [];
+        foreach ($classes as $class) {
+            $studentClasses[] = [
+                'student_id' => $student['id'],
+                'class_id' => $class,
+                'created_by' => auth()->user()->username,
+                'created_date' => now()
+            ];
+        }
+
+        StudentClassModel::insert($studentClasses);
     }
 }

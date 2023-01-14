@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Mobile Routes
+Route::prefix('/mobile')->group(function () {
+    // Login Route
+    Route::post('/login', 'API\AuthController@login');
+
+    // Student Routes
+    Route::prefix('/student')->group(function () {
+        Route::get('/');
+    });
+});
 
 // Class API Routes
 Route::prefix('/class')->group(function () {

@@ -17,7 +17,10 @@ class AuthController extends Controller
         if ($result) {
             return redirect()->to('/');
         } else {
-            dd('Gagal 😒');
+            return  back()->with('status', [
+                'type' => 'danger',
+                'message' => 'Invalid username or password, please try again.'
+            ]);
         }
     }
 
