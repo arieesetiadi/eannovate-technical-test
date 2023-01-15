@@ -25,8 +25,9 @@ class StudentRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'email' => 'required',
-            'age' => 'required'
+            'age' => 'required|numeric|integer',
+            'phone_number' => 'numeric',
+            'email' => 'required|email',
         ];
     }
 }

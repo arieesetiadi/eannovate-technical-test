@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
+use App\Models\ClassModel;
 use App\Models\StudentClassModel;
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class StudentController extends Controller
 {
@@ -19,15 +21,42 @@ class StudentController extends Controller
     {
         try {
             // Check if any params
+            $data = [];
             if ($request->class_id) {
                 // Get students by class_id
-                $data = StudentClassModel
+                $students = StudentClassModel
                     ::where('class_id', $request->class_id)
                     ->with('student')
-                    ->with('class')
-                    ->get();
+                    ->orderByDesc('created_date')
+                    ->get()
+                    ->pluck('student');
             } else {
-                $data = StudentModel::all();
+                // Get all students if there is no params
+                $students = StudentModel::orderByDesc('created_date')->get();
+            }
+
+            // Response error if no student found
+            if (!count($students)) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Students not found.'
+                ], 404);
+            }
+
+            // Refactor students data as requested
+            foreach ($students as $i => $student) {
+                // Get student classes
+                $studentClasses = StudentClassModel
+                    ::where('student_id', $student->id)
+                    ->with('class')
+                    ->get()
+                    ->pluck('class');
+
+                // Filter array students
+                $data[$i] = Arr::except($student, [
+                    'created_by', 'created_date', 'modified_by', 'modified_date'
+                ]);
+                $data[$i]['class'] = $studentClasses;
             }
 
             return response()->json([
@@ -36,16 +65,17 @@ class StudentController extends Controller
             ], 200);
         }
         // Catch if any error
-        catch (\Throwable $th) {
+        catch (\Exception $th) {
             return response()->json($th);
         }
     }
 
-    public function insert(Request $request)
+    public function insert(StudentRequest $request)
     {
         try {
             // Get admin data / the user who insert this
             $admin = auth('api')->user();
+
             // Prepare student data
             $studentClasses = [];
             $studentId = 'STD' . (StudentModel::count() + 1);
@@ -76,6 +106,7 @@ class StudentController extends Controller
                     ];
                 }
             }
+
             // Insert all student classes data at once
             StudentClassModel::insert($studentClasses);
 
@@ -83,7 +114,7 @@ class StudentController extends Controller
                 'status' => 200,
                 'data' => $student
             ], 200);
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             return response()->json($th);
         }
     }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Error;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -15,21 +18,28 @@ class AuthController extends Controller
      */
     public function login()
     {
-        // Get login credentials
-        $credentials = request(['email', 'password']);
+        try {
+            // Get login credentials
+            $credentials = request(['email', 'password']);
 
-        if (!$token = auth()->guard('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            if (!$token = auth()->guard('api')->attempt($credentials)) {
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+
+            $admin = $this->me()->original;
+
+            return response()->json([
+                'id' => $admin->id,
+                'username' => $admin->username,
+                'email' => $admin->email,
+                'authorization' => $token
+            ]);
+        } catch (Exception $err) {
+            return response()->json($err);
         }
-
-        $admin = $this->me()->original;
-
-        return response()->json([
-            'id' => $admin->id,
-            'username' => $admin->username,
-            'email' => $admin->email,
-            'authorization' => $token
-        ]);
     }
 
     /**
