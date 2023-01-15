@@ -44,6 +44,7 @@ class ClassController extends Controller
     {
         // Send data to Class view
         $majors = self::getMajors();
+
         return view('admin.class.create', [
             'title' => 'Add Class',
             'majors' => $majors

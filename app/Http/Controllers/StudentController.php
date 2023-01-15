@@ -176,6 +176,7 @@ class StudentController extends Controller
     {
         // Delete student by id
         StudentModel::find($id)->delete();
+        StudentClassModel::where('student_id', $id)->delete();
 
         return redirect()->route('student.index')->with('status', [
             'type' => 'success',
@@ -190,6 +191,9 @@ class StudentController extends Controller
 
         // Delete the student within ids[]
         StudentModel::whereIn('id', $ids)->delete();
+        foreach ($ids as $id) {
+            StudentClassModel::where('student_id', $id)->delete();
+        }
 
         return redirect()->route('student.index')->with('status', [
             'type' => 'success',

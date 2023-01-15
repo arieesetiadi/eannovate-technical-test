@@ -27,7 +27,6 @@ class StudentController extends Controller
                 $students = StudentClassModel
                     ::where('class_id', $request->class_id)
                     ->with('student')
-                    ->orderByDesc('created_date')
                     ->get()
                     ->pluck('student');
             } else {
@@ -39,7 +38,7 @@ class StudentController extends Controller
             if (!count($students)) {
                 return response()->json([
                     'status' => 404,
-                    'message' => 'Students not found.'
+                    'message' => 'Data not found.'
                 ], 404);
             }
 

@@ -22,7 +22,7 @@ Route::prefix('/mobile')->group(function () {
     // Student Routes
     Route::prefix('/student')->group(function () {
         Route::get('/', 'API\StudentController@index');
-        Route::post('/', 'API\StudentController@insert');
+        Route::post('/insert', 'API\StudentController@insert');
     });
 });
 

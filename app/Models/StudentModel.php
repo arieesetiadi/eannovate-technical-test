@@ -17,9 +17,4 @@ class StudentModel extends Model
     {
         return $this->hasMany(StudentClassModel::class, 'student_id', 'id');
     }
-
-    public function classes()
-    {
-        return $this->hasManyThrough(ClassModel::class, StudentClassModel::class, 'student_id', 'id', 'id', 'id');
-    }
 }
