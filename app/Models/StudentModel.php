@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentModel extends Model
 {
+
+    // Properties
     protected $table = 'student';
-    protected $guarded = [];
     protected $casts = ['id' => 'string'];
+    protected $guarded = [];
 
     public $timestamps = false;
 
+    // Relationships
     public function studentClass()
     {
         return $this->hasMany(StudentClassModel::class, 'student_id', 'id');

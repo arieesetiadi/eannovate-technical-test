@@ -165,7 +165,7 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        // Post prepared data to the API
+        // Delete class by id
         $response = RequestController::delete(self::$url, $id);
 
         // Check response status
